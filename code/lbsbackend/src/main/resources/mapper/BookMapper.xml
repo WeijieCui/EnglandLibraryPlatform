@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lbsbackend.mapper.BookMapper">
+    <insert id="addBooks">
+        INSERT INTO BOOK
+        (ID, CATEGORY_ID, LIBRARY_ID, REAL_LIBRARY_ID, SHELF_ID, TITLE,
+        SUMMARY, IMAGE, AUTHOR, SUBJECT, FORMAT, PUBLISHER,
+        PUBLISHED_DATE, LANGUAGE, COUNTRY, ISBN, STATUS)
+        VALUES
+        <foreach collection="books" item="book" separator=",">
+            (#{book.id},#{book.categoryId},#{book.libraryId},#{book.realLibraryId},#{book.shelfId},#{book.title},
+            #{book.summary},#{book.image},#{book.author},#{book.subject},#{book.format},#{book.publisher},
+            #{book.publishedDate},#{book.language},#{book.country},#{book.isbn},#{book.status})
+        </foreach>
+    </insert>
+    <delete id="deleteBooks">
+        DELETE FROM BOOK
+        WHERE ID IN
+        (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
+    </delete>
+    <select id="queryBooks" resultType="com.example.lbsbackend.entity.Book">
+        <bind name="keywordBind" value="'%' + _parameter.keyword + '%'"/>
+        <include refid="selectBookColumns"/>
+        <where>
+            1=1
+            <if test="categoryId!=null">
+                AND CATEGORY_ID = #{categoryId}
+            </if>
+            <if test="keyword!=null and keyword!=''">
+                AND TITLE LIKE #{keywordBind}
+                OR SUMMARY LIKE #{keywordBind}
+                OR AUTHOR LIKE #{keywordBind}
+            </if>
+        </where>
+        ORDER BY ID
+    </select>
+    <select id="queryBookByIds" resultType="com.example.lbsbackend.entity.Book">
+        <include refid="selectBookColumns"/>
+        WHERE ID IN
+        (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
+        ORDER BY ID
+    </select>
+    <sql id="selectBookColumns">
+        SELECT ID              AS id,
+               CATEGORY_ID     AS categoryId,
+               LIBRARY_ID      AS LibraryId,
+               REAL_LIBRARY_ID AS realLibraryId,
+               SHELF_ID        AS shelfId,
+               TITLE           AS title,
+               SUMMARY         AS summary,
+               IMAGE           AS image,
+               AUTHOR          AS author,
+               SUBJECT         AS subject,
+               FORMAT          AS format,
+               PUBLISHER       AS publisher,
+               PUBLISHED_DATE  AS publishedDate, LANGUAGE AS language, COUNTRY AS country, ISBN AS isbn, STATUS AS status
+        FROM BOOK
+    </sql>
+</mapper>

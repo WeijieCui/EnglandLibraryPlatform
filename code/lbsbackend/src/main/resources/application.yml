@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /lbs_backend
+
+spring:
+  application:
+    name: lbsbackend
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/lbs?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+mybatis:
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+custom:
+  snow-flake:
+    data-center-id: 1
+    machine-id: 1
+logging:
+  level:
+    com.example.lbsbackend.mapper: trace

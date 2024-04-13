@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lbsbackend.mapper.ReservationMapper">
+    <select id="queryReservations" resultType="com.example.lbsbackend.entity.Reservation">
+        <include refid="selectReservationColumns" />
+        <where>
+            1=1
+            <if test="libraryId!=null">
+                AND LIBRARY_ID = #{libraryId}
+            </if>
+            <if test="userId!=null and userId!=''">
+                AND USER_ID = #{userId}
+            </if>
+        </where>
+        ORDER BY ID
+    </select>
+    <select id="queryReservationByIds" resultType="com.example.lbsbackend.entity.Reservation">
+        <include refid="selectReservationColumns" />
+        WHERE ID IN
+        (<foreach collection="reservationIds" item="id" separator=",">#{id}</foreach>)
+        ORDER BY ID
+    </select>
+    <insert id="addReservations">
+        INSERT INTO BOOK_RESERVATION
+        (ID, LIBRARY_ID,TARGET_LIBRARY_ID,  BOOK_ID, USER_ID, EXPECTED_PICKUP_TIME,REAL_PICKUP_TIME, STATUS, CREATED_BY, CREATED_TIME)
+        VALUES
+        <foreach collection="reservations" item="obj" separator=",">
+            (#{obj.id},#{obj.libraryId},#{obj.targetLibraryId},#{obj.bookId},#{obj.userId},
+             #{obj.expectedPickupTime},#{obj.realPickupTime},#{obj.status},#{obj.createdBy},#{obj.createdTime})
+        </foreach>
+    </insert>
+    <update id="updateStatusByIds">
+        UPDATE BOOK_RESERVATION
+        SET STATUS = #{status}
+        WHERE ID IN
+        (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
+    </update>
+    <sql id="selectReservationColumns">
+        SELECT
+            ID AS id,
+            LIBRARY_ID AS LibraryId,
+            TARGET_LIBRARY_ID AS targetLibraryId,
+            BOOK_ID AS parentId,
+            USER_ID AS name,
+            EXPECTED_PICKUP_TIME AS expectedPickupTime,
+            REAL_PICKUP_TIME AS realPickupTime,
+            STATUS AS status,
+            CREATED_BY AS createdBy,
+            CREATED_TIME AS createdTime
+        FROM BOOK_RESERVATION
+    </sql>
+</mapper>
