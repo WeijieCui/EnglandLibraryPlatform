@@ -2,9 +2,11 @@ package com.example.lbsbackend.entity;
 
 import com.example.lbsbackend.enumable.BookRequestStatus;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class BookRequest extends Entity {
     private Long libraryId;
@@ -20,6 +22,6 @@ public class BookRequest extends Entity {
     private String country;
     private String isbn;
     private BookRequestStatus status;
-    private String validated_by;
-    private String validated_time;
+    private String validatedBy;
+    private String validatedTime;
 }

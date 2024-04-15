@@ -1,6 +1,8 @@
 package com.example.lbsbackend.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -9,6 +11,7 @@ import java.util.Date;
 public class Entity {
     private Long id;
     private String createdBy;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
 
     public Long getId() {

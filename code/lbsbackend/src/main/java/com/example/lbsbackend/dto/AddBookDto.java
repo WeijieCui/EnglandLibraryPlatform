@@ -2,7 +2,7 @@ package com.example.lbsbackend.dto;
 
 import com.example.lbsbackend.entity.Book;
 import com.example.lbsbackend.enumable.BookStatus;
-import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.Data;
@@ -28,6 +28,7 @@ public class AddBookDto {
     private String format;
     private String publisher;
     @Past
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date publishedDate;
     private String language;
     private String country;

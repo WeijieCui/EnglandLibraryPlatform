@@ -2,6 +2,7 @@ package com.example.lbsbackend.dto;
 
 import com.example.lbsbackend.entity.Reservation;
 import com.example.lbsbackend.enumable.BookRequestStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -25,8 +26,10 @@ public class AddReservationDto {
     @NotNull
     private Long userId;
     @Future
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date expectedPickupTime;
     @Null
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date realPickupTime;
     @Null
     private BookRequestStatus status;

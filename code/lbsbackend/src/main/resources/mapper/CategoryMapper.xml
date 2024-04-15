@@ -17,7 +17,7 @@
     <select id="queryCategories" resultType="com.example.lbsbackend.entity.Category">
         SELECT
         ID AS id,
-        LIBRARY_ID AS LibraryId,
+        LIBRARY_ID AS libraryId,
         PARENT_ID AS parentId,
         NAME AS name,
         CREATED_BY AS createdBy,

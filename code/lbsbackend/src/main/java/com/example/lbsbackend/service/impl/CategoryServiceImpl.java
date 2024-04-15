@@ -19,17 +19,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> queryCategories(Long libraryId,Long parentId) {
+    public List<Category> queryCategories(Long libraryId, Long parentId) {
         return categoryMapper.queryCategories(libraryId, parentId);
     }
 
     @Override
     public Boolean addCategories(List<Category> categories) {
+        if (categories == null || categories.isEmpty()) {
+            return false;
+        }
         entityHelper.batchCheckEntity(categories);
         return categoryMapper.addCategories(categories) > 0;
     }
+
     @Override
-    public Boolean deleteCategories(List<Long> categoryIds){
-        return categoryMapper.deleteCategories(categoryIds) > 0;
+    public Boolean deleteCategories(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return false;
+        }
+        return categoryMapper.deleteCategories(ids) > 0;
     }
 }

@@ -43,7 +43,7 @@
     <sql id="selectBookColumns">
         SELECT ID              AS id,
                CATEGORY_ID     AS categoryId,
-               LIBRARY_ID      AS LibraryId,
+               LIBRARY_ID      AS libraryId,
                REAL_LIBRARY_ID AS realLibraryId,
                SHELF_ID        AS shelfId,
                TITLE           AS title,

@@ -21,7 +21,7 @@
         ORDER BY ID
     </select>
     <insert id="addReservations">
-        INSERT INTO BOOK_RESERVATION
+        INSERT INTO RESERVATION
         (ID, LIBRARY_ID,TARGET_LIBRARY_ID,  BOOK_ID, USER_ID, EXPECTED_PICKUP_TIME,REAL_PICKUP_TIME, STATUS, CREATED_BY, CREATED_TIME)
         VALUES
         <foreach collection="reservations" item="obj" separator=",">
@@ -30,7 +30,7 @@
         </foreach>
     </insert>
     <update id="updateStatusByIds">
-        UPDATE BOOK_RESERVATION
+        UPDATE RESERVATION
         SET STATUS = #{status}
         WHERE ID IN
         (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
@@ -38,15 +38,15 @@
     <sql id="selectReservationColumns">
         SELECT
             ID AS id,
-            LIBRARY_ID AS LibraryId,
+            LIBRARY_ID AS libraryId,
             TARGET_LIBRARY_ID AS targetLibraryId,
-            BOOK_ID AS parentId,
-            USER_ID AS name,
+            BOOK_ID AS bookId,
+            USER_ID AS userId,
             EXPECTED_PICKUP_TIME AS expectedPickupTime,
             REAL_PICKUP_TIME AS realPickupTime,
             STATUS AS status,
             CREATED_BY AS createdBy,
             CREATED_TIME AS createdTime
-        FROM BOOK_RESERVATION
+        FROM RESERVATION
     </sql>
 </mapper>

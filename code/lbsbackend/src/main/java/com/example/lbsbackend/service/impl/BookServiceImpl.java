@@ -6,6 +6,7 @@ import com.example.lbsbackend.service.BookService;
 import com.example.lbsbackend.util.EntityHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("BookService")
@@ -24,8 +25,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> queryBookByIds(List<Long> bookIds) {
-        return bookMapper.queryBookByIds(bookIds);
+    public List<Book> queryBookByIds(List<Long> ids) {
+        if (ids ==null || ids.isEmpty()){
+            return new ArrayList<>();
+        }
+        return bookMapper.queryBookByIds(ids);
     }
 
     @Override
@@ -34,7 +38,7 @@ public class BookServiceImpl implements BookService {
         return bookMapper.addBooks(books) > 0;
     }
     @Override
-    public Boolean deleteBooks(List<Long> bookIds){
-        return bookMapper.deleteBooks(bookIds) > 0;
+    public Boolean deleteBooks(List<Long> ids){
+        return bookMapper.deleteBooks(ids) > 0;
     }
 }

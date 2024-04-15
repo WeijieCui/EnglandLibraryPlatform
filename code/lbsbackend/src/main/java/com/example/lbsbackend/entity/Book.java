@@ -2,15 +2,18 @@ package com.example.lbsbackend.entity;
 
 import com.example.lbsbackend.enumable.BookStatus;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class Book extends Entity {
     private Long categoryId;
-    private Long LibraryId;
+    private Long libraryId;
     private Long realLibraryId;
     private Long shelfId;
+    private Long realShelfId;
     private String title;
     private String summary;
     private String image;

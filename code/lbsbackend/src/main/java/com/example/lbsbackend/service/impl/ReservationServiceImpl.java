@@ -7,6 +7,7 @@ import com.example.lbsbackend.service.ReservationService;
 import com.example.lbsbackend.util.EntityHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("ReservationService")
@@ -21,8 +22,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> queryReservationByIds(List<Long> reservationIds) {
-        return reservationMapper.queryReservationByIds(reservationIds);
+    public List<Reservation> queryReservationByIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return reservationMapper.queryReservationByIds(ids);
     }
 
     @Override
@@ -32,13 +36,19 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Boolean addReservations(List<Reservation> reservations) {
+        if (reservations == null || reservations.isEmpty()) {
+            return false;
+        }
         entityHelper.batchCheckEntity(reservations);
-        reservations.forEach(reservation->reservation.setStatus(BookReservedStatus.APPLIED));
+        reservations.forEach(reservation -> reservation.setStatus(BookReservedStatus.APPLIED));
         return reservationMapper.addReservations(reservations) > 0;
     }
 
     @Override
     public Boolean updateStatusByIds(List<Long> ids, String status) {
+        if (ids == null || ids.isEmpty()) {
+            return false;
+        }
         return reservationMapper.updateStatusByIds(ids, status) > 0;
     }
 }
