@@ -1,0 +1,28 @@
+.search {
+  .header {
+    height: 60px;
+    background-color: blue;
+    display: flex;
+    justify-content: center;
+  }
+  .list {
+    max-width: 600px;
+    height: calc(100vh - 200px);
+    margin: 0 auto;
+    .pagination {
+      text-align: center;
+    }
+    :global {
+      .ant-list {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .ant-spin-nested-loading {
+          flex: auto;
+          min-height: 0;
+          overflow: hidden auto;
+        }
+      }
+    }
+  }
+}

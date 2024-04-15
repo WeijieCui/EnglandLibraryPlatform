@@ -1,0 +1,22 @@
+.listItemCard {
+  display: flex;
+  align-items: center;
+  min-height: 150px;
+  .img {
+    width: 120px;
+    height: 120px;
+  }
+  .detail {
+    flex: auto;
+    min-width: 0;
+    .detailLink {
+      display: inline-block;
+      margin-top: 5px;
+    }
+  }
+  :global {
+    h1 {
+      font-weight: normal;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "lbsfe",
+  "private": true,
+  "author": "",
+  "scripts": {
+    "dev": "umi dev",
+    "build": "umi build",
+    "postinstall": "umi setup",
+    "setup": "umi setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/pro-layout": "^7.19.0",
+    "@umijs/plugin-model": "^2.6.2",
+    "ahooks": "^3.7.11",
+    "antd": "^5.16.1",
+    "axios": "^1.6.8",
+    "umi": "^4.1.9"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
+    "@umijs/plugins": "^4.1.9",
+    "typescript": "^5.0.3"
+  }
+}
