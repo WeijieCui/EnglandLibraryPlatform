@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lcsbackend.mapper.ReservationMapper">
+    <select id="queryReservations" resultType="com.example.lcsbackend.entity.Reservation">
+        <include refid="selectReservationColumns" />
+        <where>
+            1=1
+            <if test="realLibraryId!=null">
+                AND REAL_LIBRARY_ID = #{realLibraryId}
+            </if>
+            <if test="targetLibraryId!=null">
+                AND TARGET_LIBRARY_ID = #{targetLibraryId}
+            </if>
+        </where>
+        ORDER BY ID
+    </select>
+    <select id="queryReservationByIds" resultType="com.example.lcsbackend.entity.Reservation">
+        <include refid="selectReservationColumns" />
+        WHERE ID IN
+        (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
+        ORDER BY ID
+    </select>
+    <insert id="addReservations">
+        INSERT INTO RESERVATION
+        (ID,SOURCE_ID,REAL_LIBRARY_ID,REAL_SPOT_ID,REAL_SHELF_ID,TARGET_LIBRARY_ID,TARGET_SPOT_ID,TARGET_SHELF_ID,
+        USER_ID,EXPECTED_PICKUP_TIME,REAL_PICKUP_TIME,BOOK_ID,BOOK_LIBRARY_ID,BOOK_TITLE,BOOK_IMAGE,BOOK_AUTHOR,
+        BOOK_FORMAT,BOOK_ISBN, STATUS, CREATED_BY, CREATED_TIME)
+        VALUES
+        <foreach collection="reservations" item="obj" separator=",">
+            (#{obj.id},#{obj.sourceId},#{obj.realLibraryId},#{obj.realSpotId},#{obj.realShelfId},
+            #{obj.targetLibraryId},#{obj.targetSpotId},#{obj.targetShelfId},
+            #{obj.userId},#{obj.expectedPickupTime},#{obj.realPickupTime},
+            #{obj.bookId},#{obj.bookLibraryId},#{obj.bookTitle},#{obj.bookImage},#{obj.bookAuthor},
+            #{obj.bookFormat},#{obj.bookIsbn}, #{obj.status},#{obj.createdBy},#{obj.createdTime})
+        </foreach>
+    </insert>
+    <update id="updateStatusByIds">
+        UPDATE RESERVATION
+        SET STATUS = #{status}
+        WHERE ID IN
+        (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
+    </update>
+    <sql id="selectReservationColumns">
+        SELECT ID                   AS id,
+               SOURCE_ID            AS sourceId,
+               REAL_LIBRARY_ID      AS realLibraryId,
+               REAL_SPOT_ID         AS realSpotId,
+               REAL_SHELF_ID        AS realShelfId,
+               TARGET_LIBRARY_ID    AS targetLibraryId,
+               TARGET_SPOT_ID       AS targetSpotId,
+               TARGET_SHELF_ID      AS targetShelfId,
+               USER_ID              AS userId,
+               EXPECTED_PICKUP_TIME AS expectedPickupTime,
+               REAL_PICKUP_TIME     AS realPickupTime,
+               BOOK_ID              AS bookId,
+               BOOK_LIBRARY_ID      AS bookLibraryId,
+               BOOK_TITLE           AS bookTitle,
+               BOOK_IMAGE           AS bookImage,
+               BOOK_AUTHOR          AS bookAuthor,
+               BOOK_FORMAT          AS bookFormat,
+               BOOK_ISBN            AS bookIsbn,
+               STATUS               AS status,
+               CREATED_BY           AS createdBy,
+               CREATED_TIME         AS createdTime
+        FROM RESERVATION
+    </sql>
+</mapper>
