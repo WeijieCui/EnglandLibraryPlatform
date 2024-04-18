@@ -1,6 +1,8 @@
 package com.example.lbsbackend.service;
 
 import com.example.lbsbackend.entity.Category;
+import com.example.lbsbackend.util.page.PageRequest;
+import com.example.lbsbackend.util.page.PageResult;
 
 import java.util.List;
 
@@ -14,10 +16,10 @@ public interface CategoryService {
      * query categories
      *
      * @description: query categories
-     * @param: Long libraryId,Long parentId
-     * @return: List<Category>
+     * @param: Long libraryId,Long parentId, PageRequest page
+     * @return: PageResult
      */
-    List<Category> queryCategories(Long libraryId, Long parentId);
+    PageResult queryCategories(Long libraryId, Long parentId, PageRequest page);
 
     /**
      * batch add categories

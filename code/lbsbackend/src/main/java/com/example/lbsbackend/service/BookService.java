@@ -1,6 +1,8 @@
 package com.example.lbsbackend.service;
 
 import com.example.lbsbackend.entity.Book;
+import com.example.lbsbackend.util.page.PageRequest;
+import com.example.lbsbackend.util.page.PageResult;
 
 import java.util.List;
 
@@ -14,16 +16,16 @@ public interface BookService {
      * query books
      *
      * @description: query books
-     * @param: Long categoryId, String keyword
+     * @param: Long categoryId, String keyword, PageRequest
      * @return: List<Book>
      */
-    List<Book> queryBooks(Long categoryId, String keyword);
+    PageResult queryBooks(Long categoryId, String keyword, PageRequest pageRequest);
 
     /**
      * query books by ids
      *
      * @description: query books by ids
-     * @param: List<Long> ids
+     * @param: List<Long> ids, PageRequest pageRequest
      * @return: List<Book>
      */
     List<Book> queryBookByIds(List<Long> ids);

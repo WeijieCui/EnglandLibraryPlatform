@@ -19,7 +19,9 @@
         (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
     </delete>
     <select id="queryBooks" resultType="com.example.lbsbackend.entity.Book">
-        <bind name="keywordBind" value="'%' + _parameter.keyword + '%'"/>
+        <if test="keyword!=null and keyword!=''">
+            <bind name="keywordBind" value="'%' + _parameter.keyword + '%'"/>
+        </if>
         <include refid="selectBookColumns"/>
         <where>
             1=1

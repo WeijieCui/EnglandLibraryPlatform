@@ -1,7 +1,7 @@
 package com.example.lbsbackend.controller;
 
 import com.example.lbsbackend.dto.AddCategoryDto;
-import com.example.lbsbackend.entity.Category;
+import com.example.lbsbackend.dto.QueryCategoryDto;
 import com.example.lbsbackend.response.Result;
 import com.example.lbsbackend.service.CategoryService;
 import org.springframework.validation.annotation.Validated;
@@ -34,9 +34,10 @@ public class CategoryController {
      * @return: Result
      */
     @RequestMapping(value = "/batchAdd", method = RequestMethod.POST)
-    public Result addCategories(@RequestBody @Validated List<AddCategoryDto> categoryDtos){
+    public Result addCategories(@RequestBody @Validated List<AddCategoryDto> categoryDtos) {
         return new Result(categoryService.addCategories(AddCategoryDto.batchConvertToCategory(categoryDtos)));
     }
+
     /**
      * batch delete categories
      *
@@ -45,18 +46,19 @@ public class CategoryController {
      * @return: Result
      */
     @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
-    public Result deleteCategories(@RequestBody @Validated List<Long> categoryIds){
+    public Result deleteCategories(@RequestBody @Validated List<Long> categoryIds) {
         return new Result(categoryService.deleteCategories(categoryIds));
     }
+
     /**
      * query categories
      *
      * @description: query categories
-     * @param: Long libraryId,Long parentId
+     * @param: QueryBookDto dto
      * @return: Result
      */
-    @RequestMapping(value = "/query",method = RequestMethod.GET)
-    public Result queryCategories(Long libraryId,Long parentId){
-        return new Result(categoryService.queryCategories(libraryId, parentId));
+    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    public Result queryCategories(@RequestBody QueryCategoryDto dto) {
+        return new Result(categoryService.queryCategories(dto.getLibraryId(), dto.getParentId(), dto.getPage()));
     }
 }

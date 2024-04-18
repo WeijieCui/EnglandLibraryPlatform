@@ -5,6 +5,11 @@ import com.example.lbsbackend.enumable.BookReservedStatus;
 import com.example.lbsbackend.mapper.ReservationMapper;
 import com.example.lbsbackend.service.ReservationService;
 import com.example.lbsbackend.util.EntityHelper;
+import com.example.lbsbackend.util.page.PageRequest;
+import com.example.lbsbackend.util.page.PageResult;
+import com.example.lbsbackend.util.page.PageUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,8 +35,9 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> queryReservations(Long libraryId, Long userId) {
-        return reservationMapper.queryReservations(libraryId, userId);
+    public PageResult queryReservations(Long libraryId, Long userId, PageRequest page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        return PageUtil.convertPageResult(new PageInfo<>(reservationMapper.queryReservations(libraryId, userId)));
     }
 
     @Override

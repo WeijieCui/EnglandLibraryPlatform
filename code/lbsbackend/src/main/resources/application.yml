@@ -19,6 +19,10 @@ mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+pagehelper:
+  propertyName: propertyValue
+  reasonable: false
+  defaultCount: true
 custom:
   snow-flake:
     data-center-id: 1

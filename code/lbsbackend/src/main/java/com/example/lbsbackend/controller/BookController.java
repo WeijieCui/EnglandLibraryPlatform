@@ -1,7 +1,7 @@
 package com.example.lbsbackend.controller;
 
 import com.example.lbsbackend.dto.AddBookDto;
-import com.example.lbsbackend.entity.Book;
+import com.example.lbsbackend.dto.QueryBookDto;
 import com.example.lbsbackend.response.Result;
 import com.example.lbsbackend.service.BookService;
 import org.springframework.validation.annotation.Validated;
@@ -52,11 +52,11 @@ public class BookController {
      * query books
      *
      * @description: query books by categoryId and keyword
-     * @param: Long categoryId, String keyword
+     * @param: QueryBookDto dto
      * @return: Result
      */
     @RequestMapping(value = "/query",method = RequestMethod.GET)
-    public Result queryBooks(Long categoryId, String keyword){
-        return new Result(bookService.queryBooks(categoryId, keyword));
+    public Result queryBooks(@RequestBody QueryBookDto dto){
+        return new Result(bookService.queryBooks(dto.getCategoryId(),dto.getKeyword(),dto.getPage()));
     }
 }

@@ -1,6 +1,8 @@
 package com.example.lbsbackend.service;
 
 import com.example.lbsbackend.entity.Reservation;
+import com.example.lbsbackend.util.page.PageRequest;
+import com.example.lbsbackend.util.page.PageResult;
 
 import java.util.List;
 
@@ -14,10 +16,10 @@ public interface ReservationService {
      * queryReservations
      *
      * @description: query reservations
-     * @param: Long libraryId, Long userId
+     * @param: Long libraryId, Long userId, PageRequest page
      * @return: List<Reservation>
      */
-    List<Reservation> queryReservations(Long libraryId, Long userId);
+    PageResult queryReservations(Long libraryId, Long userId, PageRequest page);
 
     /**
      * queryReservationByIds
