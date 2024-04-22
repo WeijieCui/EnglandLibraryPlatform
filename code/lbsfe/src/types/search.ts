@@ -36,6 +36,13 @@ export interface SearchBookPrintingsRequestParams {
   bookId?: number;
   libraryId?: string;
 }
+/** Book Printing Reserve req params */
+export interface BookPrintingsReserveRequestParams {
+  targetLibraryId: number;
+  bookPrintingId: number;
+  userId: number;
+  expectedPickupTime: String;
+}
 /**
  * 搜索列表每项定义
  * TODO: 这里的类型是我根据页面随便定义的，你根据你后端数据库的自行修改哈

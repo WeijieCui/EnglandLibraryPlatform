@@ -1,10 +1,15 @@
 import { Spin, Skeleton, Row, Col, Table, Select, Typography, message } from 'antd';
 import { useParams, useModel } from 'umi';
-import {useMemoizedFn, useMount, usePagination, useRequest} from 'ahooks';
+import {useMemoizedFn, usePagination} from 'ahooks';
 import { useState } from 'react';
 
-import { getSearchDetailById, updateDetailAddress, updateDetailLibraryName, } from '@/services/search';
-import {Page, SearchDetailTableDataItem} from '@/types/search';
+import {
+  batchBookPrintingReserve,
+  getSearchDetailById,
+  updateDetailAddress,
+  updateDetailLibraryName,
+} from '@/services/search';
+import {BookPrintingsReserveRequestParams, Page, SearchDetailTableDataItem} from '@/types/search';
 
 import SearchHeader from '../components/SearchHeader';
 import styles from './index.less';
@@ -40,9 +45,19 @@ const SearchDetailPage = () => {
     setLibrary(newVal);
     updateDetailLibraryName(bookId, newVal)
   })
-  const handleReserve = useMemoizedFn(async (item: SearchDetailTableDataItem) => {
-    message.success('Reserve success,'+ item.library.name);
-  })
+  const handleReserve = useMemoizedFn(
+    async (item:SearchDetailTableDataItem) => {
+        console.log('handleReserve:', item);
+        const reqData:BookPrintingsReserveRequestParams = {
+            targetLibraryId: item.library.id,
+            bookPrintingId: item.id,
+            userId: 1,
+            expectedPickupTime: '2024-05-01 12:00:00'
+        };
+      const data = await batchBookPrintingReserve([reqData]);
+      console.log(data);
+          message.success('RESERVE SUCCESS');
+    });
 
   const detailInfo = detailFetcher.data;
 
@@ -76,20 +91,22 @@ const SearchDetailPage = () => {
                     />
                   </Col>
                 </Row>
-                <div>length:{selectedRowKeys.length}</div>
                 <Table
                   bordered
                   pagination={false}
                   rowKey="id"
                   dataSource={selectedRowKeys}
                   columns={[
-                    { title: 'Original Library', dataIndex: ['realLibrary','name']},
+                    { title: 'Original Library', dataIndex: ['library','name']},
                     { title: 'Current Library', dataIndex: ['realLibrary','name']},
                     { title: 'Status', dataIndex: 'status' },
                     {
                       title: 'Action',
-                      dataIndex: 'id',
-                      render: (_, record:SearchDetailTableDataItem) => <Typography.Link onClick={() => handleReserve(record)}>Reserve</Typography.Link>
+                      render: (_, record:SearchDetailTableDataItem) => {
+                        if(record.status==='AVAILABLE') {
+                          return <Typography.Link onClick={() => handleReserve(record)}>Reserve</Typography.Link>
+                        }
+                      }
                     },
                   ]}
                 />

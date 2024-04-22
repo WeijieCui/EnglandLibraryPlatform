@@ -3,7 +3,7 @@ import request from '@/utils/request'
 import {
   SearchListRequestParams,
   SearchListResponseProps,
-  SearchListItemProps, SearchBookPrintingsRequestParams,
+  SearchListItemProps, SearchBookPrintingsRequestParams, BookPrintingsReserveRequestParams,
 } from '@/types/search'
 
 import { asyncSleep } from '@/utils/devhelper';
@@ -49,6 +49,13 @@ export async function getSearchDetailById(params: SearchBookPrintingsRequestPara
   // TODO: 调用接口，返回类型为 SearchListItemProps
   console.log('params:',params, ',bookId:', params.bookId);
   const { data: { data } } = await request.post(`/bookPrinting/query`, params);
+  return data;
+}
+/** batchBookPrintingReserve */
+export async function batchBookPrintingReserve(params: [BookPrintingsReserveRequestParams]) {
+  console.log('batchBookPrintingReserve:',params);
+  const data = await request.post(`/reservation/batchAdd`, params);
+  console.log('batchBookPrintingReserve:', data);
   return data;
 }
 
