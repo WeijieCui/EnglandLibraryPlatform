@@ -17,7 +17,7 @@ public class PageUtil {
      */
     public static PageResult convertPageResult(PageInfo<?> pageInfo) {
         PageResult result = new PageResult();
-        result.setPageNum(pageInfo.getPageNum());
+        result.setCurrent(pageInfo.getPageNum());
         result.setPageSize(pageInfo.getPageSize());
         result.setTotalSize(pageInfo.getTotal());
         result.setTotalPages(pageInfo.getPages());

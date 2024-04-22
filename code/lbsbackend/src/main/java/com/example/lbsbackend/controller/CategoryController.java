@@ -4,6 +4,7 @@ import com.example.lbsbackend.dto.AddCategoryDto;
 import com.example.lbsbackend.dto.QueryCategoryDto;
 import com.example.lbsbackend.response.Result;
 import com.example.lbsbackend.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import java.util.List;
  * @description: category controller
  */
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api/category")
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -58,7 +59,7 @@ public class CategoryController {
      * @return: Result
      */
     @RequestMapping(value = "/query", method = RequestMethod.GET)
-    public Result queryCategories(@RequestBody QueryCategoryDto dto) {
+    public Result queryCategories(@RequestBody @Valid QueryCategoryDto dto) {
         return new Result(categoryService.queryCategories(dto.getLibraryId(), dto.getParentId(), dto.getPage()));
     }
 }

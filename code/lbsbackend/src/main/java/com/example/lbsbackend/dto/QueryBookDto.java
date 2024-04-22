@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class QueryBookDto {
     private Long categoryId;
+    private Long libraryId;
     private String keyword;
     @NotNull
     private PageRequest page;

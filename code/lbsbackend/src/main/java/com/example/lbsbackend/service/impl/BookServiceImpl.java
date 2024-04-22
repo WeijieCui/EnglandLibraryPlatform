@@ -25,10 +25,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public PageResult queryBooks(Long categoryId, String keyword, PageRequest pageRequest) {
-        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        List<Book> books = bookMapper.queryBooks(categoryId, keyword);
+    public PageResult queryBooks(Long categoryId, Long libraryId, String keyword, PageRequest pageRequest) {
+        PageHelper.startPage(pageRequest.getCurrent(), pageRequest.getPageSize());
+        List<Book> books = bookMapper.queryBooks(categoryId,libraryId, keyword);
         return PageUtil.convertPageResult(new PageInfo<>(books));
+    }
+
+    @Override
+    public Book queryBookDetail(Long id) {
+        return bookMapper.queryBookById(id);
     }
 
     @Override

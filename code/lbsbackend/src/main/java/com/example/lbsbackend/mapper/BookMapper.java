@@ -8,9 +8,10 @@ import java.util.List;
 
 @Mapper
 public interface BookMapper {
-    List<Book> queryBooks(Long categoryId, String keyword);
+    List<Book> queryBooks(Long categoryId, Long libraryId, String keyword);
 
     List<Book> queryBookByIds(List<Long> ids);
+    Book queryBookById(Long id);
 
     Integer addBooks(List<Book> books);
 

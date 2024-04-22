@@ -36,7 +36,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public PageResult queryReservations(Long libraryId, Long userId, PageRequest page) {
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page.getCurrent(), page.getPageSize());
         return PageUtil.convertPageResult(new PageInfo<>(reservationMapper.queryReservations(libraryId, userId)));
     }
 

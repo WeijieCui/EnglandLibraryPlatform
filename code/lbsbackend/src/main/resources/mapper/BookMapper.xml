@@ -28,6 +28,9 @@
             <if test="categoryId!=null">
                 AND CATEGORY_ID = #{categoryId}
             </if>
+            <if test="libraryId!=null">
+                AND LIBRARY_ID = #{libraryId}
+            </if>
             <if test="keyword!=null and keyword!=''">
                 AND TITLE LIKE #{keywordBind}
                 OR SUMMARY LIKE #{keywordBind}
@@ -41,6 +44,10 @@
         WHERE ID IN
         (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
         ORDER BY ID
+    </select>
+    <select id="queryBookById" resultType="com.example.lbsbackend.entity.Book">
+        <include refid="selectBookColumns"/>
+        WHERE ID = #{id}
     </select>
     <sql id="selectBookColumns">
         SELECT ID              AS id,

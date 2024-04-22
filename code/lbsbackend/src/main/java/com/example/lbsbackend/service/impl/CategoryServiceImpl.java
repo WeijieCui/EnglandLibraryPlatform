@@ -25,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public PageResult queryCategories(Long libraryId, Long parentId, PageRequest page) {
-        PageHelper.startPage(page.getPageNum(),page.getPageSize());
+        PageHelper.startPage(page.getCurrent(),page.getPageSize());
         return PageUtil.convertPageResult(new PageInfo<>(categoryMapper.queryCategories(libraryId, parentId)));
     }
 

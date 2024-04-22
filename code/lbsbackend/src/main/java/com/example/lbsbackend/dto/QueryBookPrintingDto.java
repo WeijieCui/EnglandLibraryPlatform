@@ -1,19 +1,17 @@
 package com.example.lbsbackend.dto;
 
 import com.example.lbsbackend.util.page.PageRequest;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * @ClassName QueryCategoryDto
- * @Description query category dto
+ * @ClassName QueryBookPrintingDto
+ * @Description query book printing dto
  **/
 @Data
-public class QueryCategoryDto {
+public class QueryBookPrintingDto {
     private Long libraryId;
-    private Long parentId;
-    @Valid
+    private Long bookId;
     @NotNull
     private PageRequest page;
 }

@@ -16,10 +16,18 @@ public interface BookService {
      * query books
      *
      * @description: query books
-     * @param: Long categoryId, String keyword, PageRequest
+     * @param: Long categoryId, Long libraryId, String keyword, PageRequest
      * @return: List<Book>
      */
-    PageResult queryBooks(Long categoryId, String keyword, PageRequest pageRequest);
+    PageResult queryBooks(Long categoryId, Long libraryId, String keyword, PageRequest pageRequest);
+    /**
+     * queryBookDetail
+     *
+     * @description: queryBookDetail
+     * @param: Long id
+     * @return: Book
+     */
+    Book queryBookDetail(Long id);
 
     /**
      * query books by ids

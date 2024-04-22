@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lbsbackend.mapper.BookPrintingMapper">
+    <insert id="addBookPrintings">
+        INSERT INTO BOOK_PRINTING
+        (ID, BOOK_ID, LIBRARY_ID, REAL_LIBRARY_ID, SHELF_ID, REAL_SHELF_ID, STATUS, CREATED_BY, CREATED_TIME)
+        VALUES
+        <foreach collection="bookPrintings" item="p" separator=",">
+            (#{p.id},#{p.bookId},#{p.libraryId},#{p.realLibraryId},#{p.shelfId},#{p.realShelfId},#{p.status},
+            #{p.createdBy},#{p.createdTime})
+        </foreach>
+    </insert>
+    <delete id="deleteBookPrintings">
+        DELETE FROM BOOK_PRINTING
+        WHERE ID IN
+        (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
+    </delete>
+    <select id="queryBookPrintings" resultMap="bookPrintingMap">
+        SELECT ID,BOOK_ID,LIBRARY_ID,REAL_LIBRARY_ID,
+        SHELF_ID,REAL_SHELF_ID,STATUS,EXP_AVAILABLE_DATE
+        FROM BOOK_PRINTING B
+        <trim prefix="where" prefixOverrides="and">
+            <if test="bookId!=null">
+                AND BOOK_ID = #{bookId}
+            </if>
+            <if test="libraryId!=null">
+                AND LIBRARY_ID = #{libraryId}
+            </if>
+        </trim>
+        ORDER BY ID
+    </select>
+    <resultMap id="bookPrintingMap" type="com.example.lbsbackend.entity.BookPrinting">
+        <id property="id" column="ID"/>
+        <result property="bookId" column="BOOK_ID"/>
+        <result property="shelfId" column="SHELF_ID"/>
+        <result property="realShelfId" column="REAL_SHELF_ID"/>
+        <result property="status" column="STATUS"/>
+        <result property="expAvailableDate" column="EXP_AVAILABLE_DATE"/>
+        <association property="library" column="LIBRARY_ID"
+                     select="com.example.lbsbackend.mapper.LibraryMapper.queryById"/>
+        <association property="realLibrary" column="REAL_LIBRARY_ID"
+                     select="com.example.lbsbackend.mapper.LibraryMapper.queryById"/>
+    </resultMap>
+    <select id="queryBookPrintingByIds" resultType="com.example.lbsbackend.entity.BookPrinting">
+        <include refid="selectBookPrintingColumns"/>
+        WHERE ID IN
+        (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
+        ORDER BY ID
+    </select>
+    <select id="queryBookPrintingById" resultType="com.example.lbsbackend.entity.BookPrinting">
+        <include refid="selectBookPrintingColumns"/>
+        WHERE ID = #{id}
+    </select>
+    <sql id="selectBookPrintingColumns">
+        SELECT ID                 AS id,
+               BOOK_ID            AS bookId,
+               LIBRARY_ID         AS libraryId,
+               REAL_LIBRARY_ID    AS realLibraryId,
+               SHELF_ID           AS shelfId,
+               REAL_SHELF_ID      AS realShelfId,
+               STATUS             AS status,
+               EXP_AVAILABLE_DATE as expAvailableDate
+        FROM BOOK_PRINTING
+    </sql>
+</mapper>

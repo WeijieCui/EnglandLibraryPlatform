@@ -1,17 +1,16 @@
 package com.example.lbsbackend.util.page;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @ClassName PageRequest
  * @Description page request data
  **/
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PageRequest {
-    private int pageNum; // current page number
+    @NotNull
+    private int current; // current page number
+    @NotNull
     private int pageSize; // the number of items per page
 }

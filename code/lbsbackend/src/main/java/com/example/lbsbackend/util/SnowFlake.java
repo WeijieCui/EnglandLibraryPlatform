@@ -15,7 +15,7 @@ public class SnowFlake {
     /**
      * 序列号占用的位数
      */
-    private final static long SEQUENCE_BIT = 12;
+    private final static long SEQUENCE_BIT = 5;
     /**
      * 机器标识占用的位数
      */
@@ -23,7 +23,7 @@ public class SnowFlake {
     /**
      * 数据中心占用的位数
      */
-    private final static long DATA_CENTER_BIT = 5;
+    private final static long DATA_CENTER_BIT = 1;
 
     /**
      * 每一部分的最大值
@@ -99,5 +99,12 @@ public class SnowFlake {
 
     private long getNewStamp() {
         return System.currentTimeMillis();
+    }
+
+    public static void main(String[] args) {
+        SnowFlake flake = new SnowFlake();
+        Long id = flake.nextId();
+        System.out.println(id);
+        System.out.println(("" + id).length());
     }
 }

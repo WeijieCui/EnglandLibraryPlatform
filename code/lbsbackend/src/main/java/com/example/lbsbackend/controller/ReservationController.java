@@ -27,7 +27,7 @@ import static com.example.lbsbackend.enumable.BookReservedStatus.TRANSFERING;
  * @description: ReservationController
  */
 @RestController
-@RequestMapping("/reservation")
+@RequestMapping("/api/reservation")
 public class ReservationController {
     private final ReservationService reservationService;
     private final BookService bookService;
@@ -48,7 +48,8 @@ public class ReservationController {
     public Result addReservations(@RequestBody @Validated List<AddReservationDto> reservationDtos) {
         List<Long> bookIds = reservationDtos.stream().map(AddReservationDto::getBookId).toList();
         List<Book> books = bookService.queryBookByIds(bookIds);
-        List<Book> filteredBooks = books.stream().filter(book -> BookStatus.AVAILABLE.equals(book.getStatus())).toList();
+        List<Book> filteredBooks = books;
+//        List<Book> filteredBooks = books.stream().filter(book -> BookStatus.AVAILABLE.equals(book.getStatus())).toList();
         Set<Long> filteredBookIds = filteredBooks.stream().map(Book::getId).collect(Collectors.toSet());
         List<AddReservationDto> filteredReservationDtos = reservationDtos.stream()
                 .filter(dto -> filteredBookIds.contains(dto.getBookId())).toList();
