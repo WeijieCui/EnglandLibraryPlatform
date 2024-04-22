@@ -3,7 +3,7 @@ import request from '@/utils/request'
 import {
   SearchListRequestParams,
   SearchListResponseProps,
-  SearchListItemProps,
+  SearchListItemProps, SearchBookPrintingsRequestParams,
 } from '@/types/search'
 
 import { asyncSleep } from '@/utils/devhelper';
@@ -16,8 +16,10 @@ export async function getCityOptions() {
   // const { data: { data } } = await request.get('/api/search/getCityOptions');
   // return data ?? [];
   return [
-    { value: 'Beijing', label: 'Beijing' },
-    { value: 'London', label: 'London' }
+    { value: '1', label: 'London' },
+    { value: '2', label: 'Oxford' },
+    { value: '3', label: 'Cambridge' },
+    { value: '4', label: 'Reading' },
   ]
 }
 
@@ -26,42 +28,28 @@ export async function getLibraryOptions() {
   // TODO: 调用接口，返回类型为 ArrayList<{ value: string; label: string }>
   // const { data: { data } } = await request.get('/api/search/getLibraryOptions');
   // return data ?? [];
+
   return [
-    { value: 'Beijing Centre Library', label: 'Beijing Centre Library' },
-    { value: 'London Centre Library', label: 'London Centre Library' }
+    { value: '1', label: 'London Centre Library' },
+    { value: '2', label: 'Oxford Centre Library' },
+    { value: '3', label: 'Cambridge Centre Library' },
+    { value: '4', label: 'Reading Centre Library' },
   ]
 }
 
 /** 获取搜索页面下拉列表 */
 export async function getSearchList(params: SearchListRequestParams) {
   // TODO: 调用接口，返回类型为 SearchListResponseProps
-  // const { data: { data } } = await request.post('/api/search/getSearchList', params);
-  // return data;
-
-  /** TODO: 以下为 mock 代码 */
-  console.log(params);
-  await asyncSleep();
-  const mockResponseData = mockSearchData.slice((params.current - 1) * params.pageSize, params.current * params.pageSize)
-  return {
-    current: 1,
-    pageSize: 20,
-    total: mockSearchData.length,
-    list: mockResponseData
-  } as SearchListResponseProps
+  const { data: { data: {data} } } = await request.post('/book/query', params);
+  console.log('data:', data);
+  return data;
 }
 /** 根据 ID 获取详情 */
-export async function getSearchDetailById(id: number) {
+export async function getSearchDetailById(params: SearchBookPrintingsRequestParams) {
   // TODO: 调用接口，返回类型为 SearchListItemProps
-  // const { data: { data } } = await request.get('/api/search/getSearchDetailById', {
-  //   params: {
-  //     id
-  //   }
-  // });
-  // return data;
-
-  /** TODO: 以下为 mock 代码 */
-  await asyncSleep();
-  return mockSearchData.find(s => s.id === id);
+  console.log('params:',params, ',bookId:', params.bookId);
+  const { data: { data } } = await request.post(`/bookPrinting/query`, params);
+  return data;
 }
 
 /** 更新详情 city 数据 */

@@ -5,6 +5,18 @@ export default defineConfig({
     '@umijs/plugins/dist/model'
   ],
   model: {},
+  proxy: {
+    "/api": {
+      "target": "http://localhost:8080/lbs_backend",
+      "changeOrigin": true,
+      "pathRewrite": {},
+    },
+    "/image": {
+      "target": "http://localhost:8080/lbs_backend",
+      "changeOrigin": true,
+      "pathRewrite": {},
+    },
+  },
   routes: [
     {
       path: '/',

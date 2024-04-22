@@ -2,7 +2,7 @@ import { Space, Select, Input, Button, Form } from 'antd'
 import { useModel, history } from 'umi';
 import { useMemoizedFn } from 'ahooks';
 
-import { CategoryOptions, LanguageOptions } from '@/types/search';
+import { CategoryOptions } from '@/types/search';
 
 import styles from './index.less';
 
@@ -16,14 +16,13 @@ const SearchHeader = (props: SearchHeaderProps) => {
   const {
     searchForm,
     fetchers: {
-      cityFetcher,
       libraryFetcher,
-      searchListFetcher,
+      queryBookFetcher,
     }
   } = useModel('search');
 
   const handleSearch = useMemoizedFn(() => {
-    searchListFetcher.runAsync({
+    queryBookFetcher.runAsync({
       current: 1,
       pageSize: 20,
     })
@@ -37,21 +36,6 @@ const SearchHeader = (props: SearchHeaderProps) => {
           <Form.Item name="category">
             <Select allowClear placeholder="Category" options={CategoryOptions} />
           </Form.Item>
-          <Form.Item name="language">
-            <Select allowClear placeholder="Language" options={LanguageOptions} />
-          </Form.Item>
-          {
-            allowCity && (
-              <Form.Item name="city">
-                <Select
-                  allowClear
-                  placeholder="City"
-                  options={cityFetcher.data}
-                  loading={cityFetcher.loading}
-                />
-              </Form.Item>
-            )
-          }
           {
             allowLibrary && (
               <Form.Item name="library">
@@ -64,7 +48,7 @@ const SearchHeader = (props: SearchHeaderProps) => {
               </Form.Item>
             )
           }
-          <Form.Item name="keywords">
+          <Form.Item name="keyword">
             <Input.Search placeholder="Search" onSearch={handleSearch} />
           </Form.Item>
           <Button>Advanced</Button>

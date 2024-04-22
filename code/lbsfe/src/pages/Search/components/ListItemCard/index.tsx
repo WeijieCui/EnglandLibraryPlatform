@@ -10,13 +10,14 @@ const ListItemCard = (props: { data: SearchListItemProps }) => {
 
   return (
     <div className={styles.listItemCard}>
-      <img src={data.imgSrc} />
+      <img className={styles.img} src={data.image}  alt={data.title}/>
       <div className={styles.detail}>
-        <h1>{data.name}</h1>
+        <h1>{data.title}</h1>
         <Row gutter={16}>
-          <Col span={12}>ISBN: {data.ISBN}-{data.id}</Col>
-          <Col span={12}>Published: {data.Published}</Col>
-          <Col span={24}>{data.tips}</Col>
+          <Col span={24}>{data.summary}</Col>
+          <Col span={12}>Publisher: {data.publisher}</Col>
+          <Col span={12}>Published: {data.publishedDate}</Col>
+          <Col span={12}>ISBN: {data.isbn}</Col>
         </Row>
         <Typography.Link
           className={styles.detailLink}

@@ -2,45 +2,48 @@ import { useRequest, usePagination } from 'ahooks';
 import { Form } from 'antd'
 
 import { getCityOptions, getLibraryOptions, getSearchList } from '@/services/search';
+import {Page} from "@/types/search";
 
 export default function useSearch() {
   const [searchForm] = Form.useForm();
 
-  const category = Form.useWatch('category', searchForm);
+  const categoryId = Form.useWatch('category', searchForm);
   const language = Form.useWatch('language', searchForm);
-  const keywords = Form.useWatch('keywords', searchForm);
+  const keyword = Form.useWatch('keyword', searchForm);
   const city = Form.useWatch('city', searchForm);
-  const library = Form.useWatch('library', searchForm);
+  const libraryId = Form.useWatch('library', searchForm);
+  const page: Page= {pageSize:10,current:1};
 
   const cityFetcher = useRequest(getCityOptions);
   const libraryFetcher = useRequest(getLibraryOptions);
 
-  const searchListFetcher = usePagination(
+  const queryBookFetcher = usePagination(
     ({ current, pageSize }) =>
       getSearchList({
+        page,
         current,
         pageSize,
-        category,
+        categoryId,
         language,
-        keywords,
+        keyword,
         city,
-        library,
+        libraryId,
       }),
     { manual: true })
 
   return {
     searchForm,
     searchParams: {
-      category,
+      category: categoryId,
       language,
-      keywords,
+      keyword,
       city,
-      library,
+      libraryId,
     },
     fetchers: {
       cityFetcher,
       libraryFetcher,
-      searchListFetcher,
+      queryBookFetcher,
     }
   }
 }

@@ -1,23 +1,25 @@
-import { List, Pagination } from 'antd'
+import {List, Pagination, PaginationProps} from 'antd'
 import { useModel } from 'umi';
 import { useMount } from 'ahooks';
 
 import SearchHeader from './components/SearchHeader';
 import ListItemCard from './components/ListItemCard';
 import styles from './index.less';
-
+const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
+    console.log(current, pageSize);
+};
 const SearchPage = () => {
 
   const {
     fetchers: {
-      searchListFetcher
+      queryBookFetcher
     }
   } = useModel('search');
 
   useMount(() => {
-    searchListFetcher.runAsync({
+    queryBookFetcher.runAsync({
       current: 1,
-      pageSize: 20
+      pageSize: 10
     })
   })
 
@@ -26,13 +28,14 @@ const SearchPage = () => {
       <SearchHeader />
       <div className={styles.list}>
         <List
-          dataSource={searchListFetcher.data?.list ?? []}
-          loading={searchListFetcher.loading}
+          dataSource={queryBookFetcher?.data ?? []}
+          loading={queryBookFetcher.loading}
           footer={(
             <div className={styles.pagination}>
               <Pagination
                 showTotal={total => `Total ${total} items`}
-                {...searchListFetcher.pagination}
+                onShowSizeChange={onShowSizeChange}
+                {...queryBookFetcher.pagination}
                 />
             </div>
           )}

@@ -1,19 +1,21 @@
 import { Spin, Skeleton, Row, Col, Table, Select, Typography, message } from 'antd';
 import { useParams, useModel } from 'umi';
-import { useMemoizedFn, useRequest } from 'ahooks';
+import {useMemoizedFn, useMount, usePagination, useRequest} from 'ahooks';
 import { useState } from 'react';
 
 import { getSearchDetailById, updateDetailAddress, updateDetailLibraryName, } from '@/services/search';
-import { SearchDetailTableDataItem } from '@/types/search';
+import {Page, SearchDetailTableDataItem} from '@/types/search';
 
 import SearchHeader from '../components/SearchHeader';
 import styles from './index.less';
 
 const SearchDetailPage = () => {
   const { id: paramId } = useParams();
-  const id = Number(paramId);
+  const bookId = Number(paramId);
   const [city, setCity] = useState<string>();
-  const [library, setLibrary] = useState<string>();
+  const [libraryId, setLibrary] = useState<string>();
+  const page: Page= {pageSize:100,current:1};
+  const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
   const {
     fetchers: {
       cityFetcher,
@@ -21,24 +23,25 @@ const SearchDetailPage = () => {
     }
   } = useModel('search');
 
-  const detailFetcher = useRequest(() => getSearchDetailById(id), {
-    refreshDeps: [id],
-    onSuccess: (res) => {
-      setCity(res?.city);
-      setLibrary(res?.library);
-    }
-  })
+  const detailFetcher = usePagination(({current, pageSize}) =>
+      getSearchDetailById({page, bookId, libraryId}), {
+        onSuccess: (res) => {
+          console.log('fetch details success,', res.data);
+          setSelectedRowKeys(res.data);
+        }
+      }
+  )
 
   const handleChangeAddress = useMemoizedFn(async (newVal) => {
     setCity(newVal);
-    updateDetailAddress(id, newVal);
+    updateDetailAddress(bookId, newVal);
   })
   const handleChangeLibraryName = useMemoizedFn(async (newVal) => {
     setLibrary(newVal);
-    updateDetailLibraryName(id, newVal)
+    updateDetailLibraryName(bookId, newVal)
   })
   const handleReserve = useMemoizedFn(async (item: SearchDetailTableDataItem) => {
-    message.success('Reserve sussess');
+    message.success('Reserve success,'+ item.library.name);
   })
 
   const detailInfo = detailFetcher.data;
@@ -52,14 +55,8 @@ const SearchDetailPage = () => {
             <Skeleton />
           ) : (
             <div className={styles.conta}>
-              <img src={detailInfo.imgSrc} />
+              {/*<img src={detailInfo.image} alt={detailInfo.title} className={styles.img} />*/}
               <div className={styles.detail}>
-                <h1>{detailInfo.name}</h1>
-                <Row gutter={16}>
-                  <Col span={12}>ISBN: {detailInfo.ISBN}-{detailInfo.id}</Col>
-                  <Col span={12}>Published: {detailInfo.Published}</Col>
-                  <Col span={24}>{detailInfo.tips}</Col>
-                </Row>
                 <Row gutter={16} style={{ padding: '16px 0' }}>
                   <Col span={12}>
                     <Select
@@ -71,7 +68,7 @@ const SearchDetailPage = () => {
                   </Col>
                   <Col span={12}>
                     <Select
-                      value={library}
+                      value={libraryId}
                       onChange={handleChangeLibraryName}
                       options={libraryFetcher.data}
                       loading={libraryFetcher.loading}
@@ -79,17 +76,20 @@ const SearchDetailPage = () => {
                     />
                   </Col>
                 </Row>
+                <div>length:{selectedRowKeys.length}</div>
                 <Table
                   bordered
                   pagination={false}
-                  dataSource={detailInfo.tableData}
+                  rowKey="id"
+                  dataSource={selectedRowKeys}
                   columns={[
-                    { title: 'Order', dataIndex: 'order' },
+                    { title: 'Original Library', dataIndex: ['realLibrary','name']},
+                    { title: 'Current Library', dataIndex: ['realLibrary','name']},
                     { title: 'Status', dataIndex: 'status' },
                     {
                       title: 'Action',
-                      dataIndex: 'order',
-                      render: (_, record) => <Typography.Link onClick={() => handleReserve(record)}>Reserve</Typography.Link>
+                      dataIndex: 'id',
+                      render: (_, record:SearchDetailTableDataItem) => <Typography.Link onClick={() => handleReserve(record)}>Reserve</Typography.Link>
                     },
                   ]}
                 />
