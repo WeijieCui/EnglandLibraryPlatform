@@ -10,9 +10,12 @@ public interface BookPrintingMapper {
     List<BookPrinting> queryBookPrintings(Long libraryId, Long bookId);
 
     List<BookPrinting> queryBookPrintingByIds(List<Long> ids);
+
     BookPrinting queryBookPrintingById(Long id);
 
     Integer addBookPrintings(List<BookPrinting> bookPrintings);
 
     Integer deleteBookPrintings(List<Long> ids);
+
+    Integer updateStatusByIds(List<Long> ids, String status);
 }

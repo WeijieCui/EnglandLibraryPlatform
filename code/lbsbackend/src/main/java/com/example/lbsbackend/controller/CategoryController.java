@@ -5,7 +5,7 @@ import com.example.lbsbackend.dto.QueryCategoryDto;
 import com.example.lbsbackend.response.Result;
 import com.example.lbsbackend.service.CategoryService;
 import jakarta.validation.Valid;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +20,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/category")
+@Transactional
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -35,7 +36,7 @@ public class CategoryController {
      * @return: Result
      */
     @RequestMapping(value = "/batchAdd", method = RequestMethod.POST)
-    public Result addCategories(@RequestBody @Validated List<AddCategoryDto> categoryDtos) {
+    public Result addCategories(@RequestBody @Valid List<AddCategoryDto> categoryDtos) {
         return new Result(categoryService.addCategories(AddCategoryDto.batchConvertToCategory(categoryDtos)));
     }
 
@@ -47,7 +48,7 @@ public class CategoryController {
      * @return: Result
      */
     @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
-    public Result deleteCategories(@RequestBody @Validated List<Long> categoryIds) {
+    public Result deleteCategories(@RequestBody @Valid List<Long> categoryIds) {
         return new Result(categoryService.deleteCategories(categoryIds));
     }
 

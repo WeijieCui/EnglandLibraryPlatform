@@ -22,10 +22,11 @@
     </select>
     <insert id="addReservations">
         INSERT INTO RESERVATION
-        (ID, LIBRARY_ID,TARGET_LIBRARY_ID,  BOOK_ID, USER_ID, EXPECTED_PICKUP_TIME,REAL_PICKUP_TIME, STATUS, CREATED_BY, CREATED_TIME)
+        (ID, LIBRARY_ID,TARGET_LIBRARY_ID, BOOK_ID, BOOK_PRINTING_ID, USER_ID, EXPECTED_PICKUP_TIME,REAL_PICKUP_TIME,
+         STATUS, CREATED_BY, CREATED_TIME)
         VALUES
         <foreach collection="reservations" item="obj" separator=",">
-            (#{obj.id},#{obj.libraryId},#{obj.targetLibraryId},#{obj.bookId},#{obj.userId},
+            (#{obj.id},#{obj.libraryId},#{obj.targetLibraryId},#{obj.bookId},#{obj.bookPrintingId},#{obj.userId},
              #{obj.expectedPickupTime},#{obj.realPickupTime},#{obj.status},#{obj.createdBy},#{obj.createdTime})
         </foreach>
     </insert>
@@ -41,6 +42,7 @@
             LIBRARY_ID AS libraryId,
             TARGET_LIBRARY_ID AS targetLibraryId,
             BOOK_ID AS bookId,
+            BOOK_PRINTING_ID AS bookPrintingId,
             USER_ID AS userId,
             EXPECTED_PICKUP_TIME AS expectedPickupTime,
             REAL_PICKUP_TIME AS realPickupTime,

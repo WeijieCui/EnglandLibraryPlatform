@@ -19,6 +19,5 @@ FROM BOOK
 WHERE ID = 976122732829872100;
 select *
 from book_printing;
-insert into book_printing (ID, BOOK_ID, LIBRARY_ID, REAL_LIBRARY_ID, SHELF_ID, REAL_SHELF_ID, STATUS,
-                           EXP_AVAILABLE_DATE, CREATED_BY, CREATED_TIME)
-values (1,6122732829872129,1,1,1,1,'AVAILABLE',null, 'admin',NOW());
+SELECT * FROM RESERVATION WHERE  LIBRARY_ID = 1;
+show table status ;

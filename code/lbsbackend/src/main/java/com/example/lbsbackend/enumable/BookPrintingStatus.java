@@ -1,6 +1,6 @@
 package com.example.lbsbackend.enumable;
 
-public enum BookStatus {
+public enum BookPrintingStatus {
     AVAILABLE,
     TRANSFERING,
     BRROWING,

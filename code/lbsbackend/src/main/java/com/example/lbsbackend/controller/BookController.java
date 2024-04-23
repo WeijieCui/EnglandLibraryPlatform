@@ -4,8 +4,8 @@ import com.example.lbsbackend.dto.AddBookDto;
 import com.example.lbsbackend.dto.QueryBookDto;
 import com.example.lbsbackend.response.Result;
 import com.example.lbsbackend.service.BookService;
-import jakarta.websocket.server.PathParam;
-import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/book")
+@Transactional
 public class BookController {
     private final BookService bookService;
 
@@ -32,7 +33,7 @@ public class BookController {
      * @return: Result
      */
     @RequestMapping(value = "/batchAdd", method = RequestMethod.POST)
-    public Result addBooks(@RequestBody @Validated List<AddBookDto> bookDtos) {
+    public Result addBooks(@RequestBody @Valid List<AddBookDto> bookDtos) {
         return new Result(bookService.addBooks(AddBookDto.batchConvertToBook(bookDtos)));
     }
 

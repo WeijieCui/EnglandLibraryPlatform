@@ -13,6 +13,9 @@ public class Reservation extends Entity {
     private Long libraryId;
     private Long targetLibraryId;
     private Long bookId;
+    private Book book;
+    private Long bookPrintingId;
+    private BookPrinting bookPrinting;
     private Long userId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date expectedPickupTime;

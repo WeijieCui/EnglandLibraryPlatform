@@ -1,6 +1,6 @@
 package com.example.lbsbackend.entity;
 
-import com.example.lbsbackend.enumable.BookStatus;
+import com.example.lbsbackend.enumable.BookPrintingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +17,7 @@ public class BookPrinting extends Entity {
     private Library realLibrary;
     private Long shelfId;
     private Long realShelfId;
-    private BookStatus status;
+    private BookPrintingStatus status;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date expAvailableDate;
 }

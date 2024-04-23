@@ -1,6 +1,7 @@
 package com.example.lbsbackend.service;
 
 import com.example.lbsbackend.entity.Reservation;
+import com.example.lbsbackend.enumable.BookReservedStatus;
 import com.example.lbsbackend.util.page.PageRequest;
 import com.example.lbsbackend.util.page.PageResult;
 
@@ -43,8 +44,8 @@ public interface ReservationService {
      * updateStatusByIds
      *
      * @description: update reserved status by ids
-     * @param: List<Long> ids, String status
+     * @param: List<Long> ids, BookReservedStatus status
      * @return: success
      */
-    Boolean updateStatusByIds(List<Long> ids, String status);
+    Boolean updateStatusByIds(List<Long> ids, BookReservedStatus status);
 }

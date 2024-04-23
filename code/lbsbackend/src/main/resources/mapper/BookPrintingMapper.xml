@@ -62,4 +62,10 @@
                EXP_AVAILABLE_DATE as expAvailableDate
         FROM BOOK_PRINTING
     </sql>
+    <update id="updateStatusByIds">
+        UPDATE BOOK_PRINTING
+        SET STATUS = #{status}
+        WHERE ID IN
+        (<foreach collection="ids" item="id" separator=",">#{id}</foreach>)
+    </update>
 </mapper>

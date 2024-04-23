@@ -1,7 +1,10 @@
 package com.example.lbsbackend.service.impl;
 
+import com.example.lbsbackend.entity.BookPrinting;
 import com.example.lbsbackend.entity.Reservation;
 import com.example.lbsbackend.enumable.BookReservedStatus;
+import com.example.lbsbackend.mapper.BookMapper;
+import com.example.lbsbackend.mapper.BookPrintingMapper;
 import com.example.lbsbackend.mapper.ReservationMapper;
 import com.example.lbsbackend.service.ReservationService;
 import com.example.lbsbackend.util.EntityHelper;
@@ -19,11 +22,13 @@ import java.util.List;
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationMapper reservationMapper;
     private final EntityHelper entityHelper;
+    private final BookPrintingMapper bookPrintingMapper;
 
 
-    public ReservationServiceImpl(ReservationMapper reservationMapper, EntityHelper entityHelper) {
+    public ReservationServiceImpl(ReservationMapper reservationMapper, EntityHelper entityHelper, BookPrintingMapper bookPrintingMapper) {
         this.reservationMapper = reservationMapper;
         this.entityHelper = entityHelper;
+        this.bookPrintingMapper = bookPrintingMapper;
     }
 
     @Override
@@ -51,10 +56,10 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Boolean updateStatusByIds(List<Long> ids, String status) {
+    public Boolean updateStatusByIds(List<Long> ids, BookReservedStatus status) {
         if (ids == null || ids.isEmpty()) {
             return false;
         }
-        return reservationMapper.updateStatusByIds(ids, status) > 0;
+        return reservationMapper.updateStatusByIds(ids, status.name()) > 0;
     }
 }

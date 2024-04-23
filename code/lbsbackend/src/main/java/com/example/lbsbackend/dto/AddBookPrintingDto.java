@@ -1,7 +1,7 @@
 package com.example.lbsbackend.dto;
 
 import com.example.lbsbackend.entity.BookPrinting;
-import com.example.lbsbackend.enumable.BookStatus;
+import com.example.lbsbackend.enumable.BookPrintingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -23,7 +23,7 @@ public class AddBookPrintingDto {
     private Long realLibraryId;
     @NotNull
     private Long realShelfId;
-    private BookStatus status;
+    private BookPrintingStatus status;
     @Past
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date expAvailableDate;

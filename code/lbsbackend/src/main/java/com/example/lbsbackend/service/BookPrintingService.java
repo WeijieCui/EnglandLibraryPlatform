@@ -1,7 +1,7 @@
 package com.example.lbsbackend.service;
 
-import com.example.lbsbackend.entity.Book;
 import com.example.lbsbackend.entity.BookPrinting;
+import com.example.lbsbackend.enumable.BookPrintingStatus;
 import com.example.lbsbackend.util.page.PageRequest;
 import com.example.lbsbackend.util.page.PageResult;
 
@@ -56,4 +56,13 @@ public interface BookPrintingService {
      * @return: success
      */
     Boolean deleteBookPrintings(List<Long> ids);
+
+    /**
+     * updateStatusByIds
+     *
+     * @description: updateStatusByIds
+     * @param: List<Long> filteredPrintingIds, BookPrintingStatus status
+     * @return: success
+     */
+    void updateStatusByIds(List<Long> filteredPrintingIds, BookPrintingStatus status);
 }

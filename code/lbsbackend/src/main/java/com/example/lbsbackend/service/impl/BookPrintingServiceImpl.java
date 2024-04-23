@@ -1,6 +1,7 @@
 package com.example.lbsbackend.service.impl;
 
 import com.example.lbsbackend.entity.BookPrinting;
+import com.example.lbsbackend.enumable.BookPrintingStatus;
 import com.example.lbsbackend.mapper.BookPrintingMapper;
 import com.example.lbsbackend.service.BookPrintingService;
 import com.example.lbsbackend.util.EntityHelper;
@@ -25,7 +26,7 @@ public class BookPrintingServiceImpl implements BookPrintingService {
     }
 
     @Override
-    public PageResult queryBookPrintings(Long libraryId,Long bookId, PageRequest pageRequest) {
+    public PageResult queryBookPrintings(Long libraryId, Long bookId, PageRequest pageRequest) {
         PageHelper.startPage(pageRequest.getCurrent(), pageRequest.getPageSize());
         List<BookPrinting> bookPrintings = bookPrintingMapper.queryBookPrintings(libraryId, bookId);
         return PageUtil.convertPageResult(new PageInfo<>(bookPrintings));
@@ -53,5 +54,13 @@ public class BookPrintingServiceImpl implements BookPrintingService {
     @Override
     public Boolean deleteBookPrintings(List<Long> ids) {
         return bookPrintingMapper.deleteBookPrintings(ids) > 0;
+    }
+
+    @Override
+    public void updateStatusByIds(List<Long> ids, BookPrintingStatus status) {
+        if (ids == null || ids.isEmpty()) {
+            return;
+        }
+        bookPrintingMapper.updateStatusByIds(ids, status.name());
     }
 }

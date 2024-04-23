@@ -1,7 +1,7 @@
 package com.example.lbsbackend.dto;
 
 import com.example.lbsbackend.entity.Book;
-import com.example.lbsbackend.enumable.BookStatus;
+import com.example.lbsbackend.enumable.BookPrintingStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -33,7 +33,7 @@ public class AddBookDto {
     private String language;
     private String country;
     private String isbn;
-    private BookStatus status;
+    private BookPrintingStatus status;
     public static List<Book> batchConvertToBook(List<AddBookDto> dtos){
         List<Book> books = new ArrayList<>();
         dtos.forEach(dto->{

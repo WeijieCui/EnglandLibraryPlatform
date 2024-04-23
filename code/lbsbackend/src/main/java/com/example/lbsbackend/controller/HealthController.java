@@ -3,6 +3,7 @@ package com.example.lbsbackend.controller;
 import com.example.lbsbackend.response.Result;
 import com.example.lbsbackend.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

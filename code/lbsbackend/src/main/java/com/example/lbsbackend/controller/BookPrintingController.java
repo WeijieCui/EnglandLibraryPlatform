@@ -4,7 +4,8 @@ import com.example.lbsbackend.dto.AddBookPrintingDto;
 import com.example.lbsbackend.dto.QueryBookPrintingDto;
 import com.example.lbsbackend.response.Result;
 import com.example.lbsbackend.service.BookPrintingService;
-import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/bookPrinting")
+@Transactional
 public class BookPrintingController {
     private final BookPrintingService bookPrintingService;
 
@@ -31,7 +33,7 @@ public class BookPrintingController {
      * @return: Result
      */
     @RequestMapping(value = "/batchAdd", method = RequestMethod.POST)
-    public Result addBookPrintings(@RequestBody @Validated List<AddBookPrintingDto> bookPrintingDtos) {
+    public Result addBookPrintings(@RequestBody @Valid List<AddBookPrintingDto> bookPrintingDtos) {
         return new Result(bookPrintingService.addBookPrintings(AddBookPrintingDto.batchConvertToEntity(bookPrintingDtos)));
     }
 
