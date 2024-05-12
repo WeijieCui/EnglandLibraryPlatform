@@ -64,3 +64,4 @@ replay_pid*
 # python
 Scripts/
 site-packages/
+*.sqlite3

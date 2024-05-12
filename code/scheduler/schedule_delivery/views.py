@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
 from schedule_delivery.serializers_validater import DeliveryPackSerializer
 from schedule_delivery.dtos import DeliveryPackDto
+from schedule_delivery.solver import Solver
 
 
 class SchedulerViewset(viewsets.ViewSet):
@@ -15,7 +16,9 @@ class SchedulerViewset(viewsets.ViewSet):
         ser = DeliveryPackSerializer(data=request.data)
         if ser.is_valid():
             deliveryPack = DeliveryPackDto(**ser.validated_data)
-            print(deliveryPack)
+            model = deliveryPack.to_ortools_model()
+            solver = Solver(model)
+            solution = solver.solve()
+            return Response(solution)
         else:
-            print(ser.errors)
-        return Response({'hello': 'world'})
+            return Response(ser.errors)
